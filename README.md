@@ -65,6 +65,7 @@ const appHtml = path.resolve(__dirname, 'public', 'index.html');
 const appBuild = path.resolve(__dirname, 'build');
 const appPublic = path.resolve(__dirname, 'public');
 
+const shouldUseSourceMap = process.env.GENERATE_SOURCEMAP !== 'false';
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = (webpackEnv) => {
