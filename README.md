@@ -67,44 +67,56 @@ const appPublic = path.resolve(__dirname, 'public');
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-const isDev = process.env.NODE_ENV === 'development';
-const isProd = process.env.NODE_ENV === 'production';
-module.exports = {
-  mode: isProd ? 'production' : isDev && 'development',
-  devtools: isProd ? 'hidden-source-map' : isDev && 'eval',
-  entry: appIndex,
-  devServer: {
-    historyApiFallback: true,
-    inline: true,
-    port: 3000,
-    hot: true,
-    publicPath: appPublic,
-  },
-  module: {
-    rules: [
-      {
-        test: /\.(ts|tsx)$/,
-        use: ['babel-loader', 'ts-loader'],
-      },
+module.exports = (webpackEnv) => {
+  const isDev = process.env.NODE_ENV === 'development';
+  const isProd = process.env.NODE_ENV === 'production';
+
+  return {
+    mode: webpackEnv,
+    devtool: isProd
+      ? shouldUseSourceMap
+        ? 'inline-source-map'
+        : false
+      : isDev && 'cheap-module-source-map',
+    entry: appIndex,
+    devServer: {
+      historyApiFallback: true,
+      contentBase: appPublic,
+      inline: true,
+      port: 3000,
+      hot: true,
+      overlay: true,
+      stats: 'errors-only',
+      publicPath: '/',
+    },
+    module: {
+      rules: [
+        {
+          test: /\.(ts|tsx)$/,
+          exclude: /node_modules/,
+          use: ['babel-loader', 'ts-loader'],
+        },
+      ],
+    },
+    resolve: {
+      extensions: ['.ts', '.tsx', '.js', '.jsx'],
+    },
+    output: {
+      path: appBuild,
+      filename: isProd ? '[name].[contenthash].js' : '[name].bundle.js',
+    },
+    plugins: [
+      new webpack.ProvidePlugin({
+        React: 'react',
+      }),
+      new webpack.HotModuleReplacementPlugin(),
+      new HtmlWebpackPlugin({
+        template: appHtml,
+      }),
     ],
-  },
-  resolve: {
-    extensions: ['.ts', '.tsx', '.js', '.jsx'],
-  },
-  output: {
-    path: appBuild,
-    filename: isProd ? '[name].[contenthash].js' : isDev && '[name].bundle.js',
-  },
-  plugins: [
-    new webpack.ProvidePlugin({
-      React: 'react',
-    }),
-    new webpack.HotModuleReplacementPlugin(),
-    new HtmlWebpackPlugin({
-      template: appHtml,
-    }),
-  ],
+  };
 };
+
 ```
 
 ### 5. package.json script 명령어 작성
