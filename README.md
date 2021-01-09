@@ -112,7 +112,7 @@ module.exports = {
 
 ```
 "scripts": {
-    "dev": "webpack-dev-server --mode development --open --hot",
+    "dev": "webpack-dev-server --config ./webpack.config.js --mode development --open --hot",
     "build": "webpack --mode production",
     "prestart": "npm build",
     "start": "webpack --mode development"
