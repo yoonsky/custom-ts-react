@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "target": "ES5",
+    "module": "commonjs",
+    "allowJs": true,
+    "sourceMap": true,
+    "jsx": "react",
+    "outDir": "./build/",
+    "lib": ["DOM","ES2015","ES2020"],
+    "strict": true,
+    "esModuleInterop": true,
+    "moduleResolution": "node",
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true
+  },
+  "include": ["./src/**/*"],
+}
