@@ -129,3 +129,71 @@ module.exports = (webpackEnv) => {
     "start": "webpack --mode development"
   }
 ```
+
+### 6. eslint 적용하기!
+
+- [x] Eslint 설치 _yarn add eslint @typescript-eslint/eslint-plugin @typescript-eslint/parser -D_
+
+- [x] .eslintrc.js 생성 후 아래코드 추가
+
+```
+{
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint"],
+  "extends": ["plugin:@typescript-eslint/recommended"]
+}
+```
+
+- [x] package.json 에 스크립트 추가하였음. 그러나 auto fix 찾아보길...
+
+```
+"lint:fix": "eslint --fix './src/**/*.{ts,tsx,js,jsx}'"
+```
+
+- [x] eslint-config-airbnb로 설치하기 _yarn add install-peerdeps --dev eslint-config-airbnb_
+
+
+- [x] 리액트, 리액트 훅, JSX element, import 에 해당하는 eslint 플러그인 설치 _yarn add eslint-plugin-react eslint-plugin-react-hooks eslint-plugin-jsx-a11y eslint-plugin-import -D_
+
+### 7. prettier 적용하기!
+
+- [x] prettier eslint plugin 설치 _yarn add prettier eslint-config-prettier eslint-plugin-prettier -D_
+
+- [x] 취향에 맞게 .prettierrc 설정
+```
+{
+  "singleQuote": true,
+  "parser":"typescript",
+  "semi": true,
+  "useTabs": true,
+  "printWidth": 100,
+  "tabWidth": 2
+}
+```
+
+_.eslintrc.js_
+```
+module.exports = {
+	parser: '@typescript-eslint/parser',
+	plugins: ['@typescript-eslint', 'react-hooks'],
+	extends: [
+		'airbnb',
+		'plugin:react/recommended',
+		'plugin:jsx-a11y/recommended',
+		'plugin:import/errors',
+		'plugin:import/warnings',
+		'plugin:@typescript-eslint/recommended',
+		'plugin:prettier/recommended',
+	],
+	rules: {
+		'prettier/prettier': 0,
+	},
+	settings: {
+		'import/resolver': {
+			node: {
+				extensions: ['.ts', '.tsx', '.js', '.jsx'],
+			},
+		},
+	},
+};
+```
